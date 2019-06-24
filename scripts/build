@@ -1,0 +1,5 @@
+#!/bin/bash
+set -e
+source $(dirname $0)/version
+cd $(dirname $0)/..
+GOENABLED=0 go build -v -o bin/ranchervm cmd/main.go

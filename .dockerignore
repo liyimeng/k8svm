@@ -1,0 +1,7 @@
+./.idea
+./.dapper
+./.cache
+./.trash-cache
+./dist
+./bin
+./build

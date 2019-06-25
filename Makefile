@@ -10,7 +10,7 @@ TARGETS := $(shell ls scripts | grep -vE 'clean')
 $(TARGETS): .dapper
 	./.dapper $@
 
-shell-bind: .dapper
+shell: .dapper
 	./.dapper -m bind -s
 
 clean:

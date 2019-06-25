@@ -2,4 +2,5 @@
 set -e
 source $(dirname $0)/version
 cd $(dirname $0)/..
-GOENABLED=0 go build -v -o bin/ranchervm cmd/main.go
+GOENABLED=0 GOOS=linux GOARCH=${ARCH} go build -v -o bin/ranchervm cmd/main.go
+cp bin/ranchervm images/00-ranchervm/

@@ -20,7 +20,7 @@ fi
 ARCH=${ARCH:-"amd64"}
 SUFFIX="-${ARCH}"
 TAG=${TAG:-${VERSION}${SUFFIX}}
-REPO=${REPO:-rancher}
+REPO=${REPO:-liyimeng}
 
 if echo $TAG | grep -q dirty; then
     TAG=dev

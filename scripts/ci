@@ -3,4 +3,4 @@ set -xe
 cd $(dirname $0)
 ./build
 ./test
-#./package
+./package

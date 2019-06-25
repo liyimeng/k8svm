@@ -1,0 +1,61 @@
+#!/bin/bash
+set -e
+
+if [ "$ARCH" != "arm" ]; then
+    export DOCKER_BUILDKIT=1
+fi
+
+build_all()
+{
+    if [ "$#" = 0 ]; then
+        set -- [0-9][0-9]*
+    fi
+
+    for i; do
+        i=$(basename $i)
+        IMAGE=${i##[0-9][0-9]-}
+        FULL_IMAGE=$REPO/vm-$IMAGE:$TAG
+
+        cd $i
+        if [ -e archs ] && ! grep -w -q $ARCH archs; then
+            echo skipping $FULL_IMAGE for $ARCH
+            cd ..
+            continue
+        fi
+
+        echo building $FULL_IMAGE
+        ROOT=.
+        if [ -e root ]; then
+            ROOT=$(readlink -f root)
+        fi
+        docker build --build-arg TAG=$TAG --build-arg VERSION=${VERSION} --build-arg REPO=${REPO} --build-arg ARCH=${ARCH} -f $(pwd)/Dockerfile -t $FULL_IMAGE $ROOT
+        cd ..
+    done
+}
+
+copy_all()
+{
+    OUTPUT=$1
+    shift
+
+    if [ "$#" = 0 ]; then
+        set -- [0-9][0-9]*
+    fi
+
+    for i; do
+        i=$(basename $i)
+        IMAGE=${i##[0-9][0-9]-}
+        FULL_IMAGE=$REPO/vm-$IMAGE:$TAG
+
+        cd $i
+        if [ -e archs ] && ! grep -w -q $ARCH archs; then
+            echo skipping $FULL_IMAGE for $ARCH
+            cd ..
+            continue
+        fi
+
+        echo loading $FULL_IMAGE into file
+        docker save $FULL_IMAGE  >  ${OUTPUT}/${IMAGE}.tar
+        cd ..
+    done
+}

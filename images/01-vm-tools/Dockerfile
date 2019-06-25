@@ -1,18 +1,14 @@
-FROM ubuntu:18.04
+FROM centos:latest
+ENV container docker
 
-RUN \
-    apt-get update && \
-    apt-get install -y vim qemu-kvm qemu-utils bridge-utils genisoimage curl net-tools && \
-    apt-get autoclean && \
-    apt-get autoremove && \
-    rm -rf /var/lib/apt/lists/*
+RUN yum clean all \
+    && yum update -y \
+    && yum install -y qemu-kvm bridge-utils iproute dnsmasq \
+    && yum clean all
 
-RUN mkdir -p /opt/rancher/vm-tools/ && \
-    tar --exclude=/opt --exclude=/tmp --exclude=/proc \
-        --exclude=/media --exclude=/boot --exclude=/dev \
-        --exclude=/mnt --exclude=/sys --exclude=/run \
-        -cvzf /opt/rancher/vm-tools/rootfs.tgz /
-COPY startvm /opt/rancher/vm-tools/
-COPY start.sh /usr/bin/
+COPY startvm /usr/local/bin/startvm
+RUN chmod u+x /usr/local/bin/startvm
 
-CMD ["/usr/bin/start.sh"]
+VOLUME /image
+
+ENTRYPOINT ["/usr/local/bin/startvm"]

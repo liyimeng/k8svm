@@ -80,6 +80,4 @@ in [RancherVM Networking](docs/networking.md).
 
 ## Build from Source
 
-To build a Docker image, run `IMAGE=yes hack/build.sh`.
-
-To only build the binary for your local OS & ARCH, run `hack/build.sh`.
+Just run `make`.

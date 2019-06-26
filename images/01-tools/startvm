@@ -33,7 +33,7 @@ gen_mac() {
 # These variables can be overwritten
 : ${IFACE:="eth0"}
 : ${BRIDGE_IFACE:="br0"}
-: ${MEMORY_MB:="128"}
+: ${MEMORY_MB:="1024"}
 : ${CPUS:="1"}
 : ${MAC:=`gen_mac`}
 : ${MIGRATE:=false}
